@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dev Thakur — Personal Profile</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            pageBg: '#FFFFFF',
+            sectionBg: '#F5F5F5',
+            cardBg: '#F5F5F5',
+            cardBorder: '#E2E2E2',
+            textHeading: '#0D0D0D',
+            textBody: '#666666',
+            accent: '#0D0D0D',
+          },
+          borderRadius: {
+            '2xl': '16px',
+          },
+          boxShadow: {
+            'soft': '0 4px 20px -2px rgba(13, 13, 13, 0.05)',
+            'soft-hover': '0 12px 32px -4px rgba(13, 13, 13, 0.12)',
+            'btn-glow': '0 8px 24px -4px rgba(13, 13, 13, 0.25)',
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    :root {
+      --mouse-x: -1000px;
+      --mouse-y: -1000px;
+    }
+
+    /* Ambient Spotlight & Cursor Masked Dot-Grid Layer */
+    .mouse-ambient-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      background: radial-gradient(circle 380px at var(--mouse-x) var(--mouse-y), rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.11) 55%, transparent 100%);
+    }
+
+    .mouse-ambient-layer.is-active { opacity: 1; }
+
+    @media (hover: none) or (prefers-reduced-motion: reduce) {
+      .mouse-ambient-layer {
+        display: none !important;
+      }
+    }
+
+    .card-transition {
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s ease;
+    }
+    .card-transition:hover {
+      transform: translateY(-4px);
+    }
+
+
+    /* Mouse-reactive shapes (parallax) in the empty right side of the hero */
+    .shape {
+      position: absolute;
+      transition: transform 0.2s ease-out;
+      transform: translate(calc(var(--nx, 0) * var(--d, 20px)), calc(var(--ny, 0) * var(--d, 20px)));
+    }
+
+
+    /* Neon black header */
+    .neon-header {
+      box-shadow: 0 1px 0 rgba(255,255,255,0.18), 0 6px 28px rgba(255,255,255,0.10);
+    }
+    .neon-header .nav-neon { transition: color 0.25s ease, text-shadow 0.25s ease; }
+    .neon-header .nav-neon:hover {
+      text-shadow: 0 0 8px rgba(255,255,255,0.9), 0 0 18px rgba(255,255,255,0.55);
+    }
+    .neon-header a.group span:last-child { text-shadow: 0 0 10px rgba(255,255,255,0.45); }
+
+    /* Button glow effect */
+    .glow-btn {
+      transition:
+        transform 0.3s ease,
+        scale 0.3s ease,
+        box-shadow 0.3s ease,
+        filter 0.3s ease;
+    }
+    .glow-btn:hover, .glow-btn:focus-visible {
+      box-shadow: 0 0px 30px rgba(0, 0, 0, 0.3);
+      filter: brightness(1.2);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .glow-btn:hover, .glow-btn:focus-visible {
+        scale: 1.02;
+      }
+    }
+  </style>
+</head>
+<body class="bg-[#FFFFFF] text-[#0D0D0D] font-sans antialiased selection:bg-[#0D0D0D] selection:text-[#FFFFFF] relative overflow-x-hidden min-h-screen">
+<!-- Interactive Cursor Layer (Spotlight + Responsive Dot Grid) -->
+<div aria-hidden="true" class="mouse-ambient-layer" id="cursorLayer"></div>
+<!-- Header / Navigation -->
+<header class="sticky top-0 z-50 neon-header backdrop-blur-md bg-[#050505]/95 border-b border-[#3A3A3A] transition-colors">
+<div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+<a class="font-extrabold tracking-wider text-sm sm:text-base text-[#FFFFFF] flex items-center gap-2 group" href="#">
+<span class="w-2.5 h-2.5 rounded-full bg-[#FFFFFF] shadow-[0_0_10px_rgba(255,255,255,0.9)] transition-transform duration-300 group-hover:scale-125"></span>
+<span class="tracking-[0.15em]">DEV THAKUR</span>
+</a>
+<nav class="flex items-center gap-8 sm:gap-10">
+<a class="nav-neon text-sm font-medium text-[#D4D4D4] hover:text-[#FFFFFF] transition-colors relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1.5px] after:bg-[#FFFFFF] hover:after:w-full after:transition-all" href="#about">About</a>
+<a class="nav-neon text-sm font-medium text-[#D4D4D4] hover:text-[#FFFFFF] transition-colors relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1.5px] after:bg-[#FFFFFF] hover:after:w-full after:transition-all" href="#skills">Skills</a>
+<a class="nav-neon text-sm font-medium text-[#D4D4D4] hover:text-[#FFFFFF] transition-colors relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1.5px] after:bg-[#FFFFFF] hover:after:w-full after:transition-all" href="#contact">Contact</a>
+</nav>
+</div>
+</header>
+<main class="relative z-10">
+<!-- Hero Section -->
+<section class="relative max-w-6xl mx-auto px-6 pt-24 pb-28 md:pt-32 md:pb-36">
+<!-- Tasteful Minimalist Geometric Accents in Empty Corners -->
+<div class="absolute top-10 left-6 flex items-center gap-2 text-[#E2E2E2] select-none pointer-events-none">
+<div class="w-2 h-2 rounded-full border border-[#0D0D0D]/20"></div>
+<div class="w-8 h-[1px] bg-[#E2E2E2]"></div>
+</div>
+<div class="absolute top-10 right-6 hidden sm:flex items-center gap-2 text-[#E2E2E2] select-none pointer-events-none">
+<div class="w-8 h-[1px] bg-[#E2E2E2]"></div>
+<div class="w-2 h-2 rounded-full border border-[#0D0D0D]/20"></div>
+</div>
+<!-- Mouse-reactive shapes in the empty right side (hidden on smaller screens) -->
+<div aria-hidden="true" class="hidden xl:block absolute right-6 top-1/2 -translate-y-1/2 w-[340px] h-[340px] pointer-events-none select-none">
+<div class="shape rounded-full border-2 border-[#0D0D0D]" style="--d:-18px; width:240px; height:240px; right:40px; top:50px;"></div>
+<div class="shape rounded-full bg-[#0D0D0D]" style="--d:34px; width:130px; height:130px; right:0; top:0;"></div>
+<div class="shape rounded-3xl bg-[#BDBDBD] rotate-12" style="--d:-40px; width:110px; height:110px; left:10px; bottom:10px;"></div>
+<div class="shape rounded-full bg-[#0D0D0D]" style="--d:52px; width:22px; height:22px; right:120px; bottom:30px;"></div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+<!-- Left Column: Bio & Hero Content -->
+<div class="lg:col-span-12 flex flex-col items-start justify-center">
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F5F5F5] border border-[#E2E2E2] mb-8 text-xs font-medium text-[#0D0D0D] shadow-sm">
+<span class="w-2 h-2 rounded-full bg-[#0D0D0D]"></span>
+            Personal Portfolio
+          </div>
+<h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-[1.08] mb-6 max-w-2xl text-[#0D0D0D]">
+            Hi, I'm Dev Thakur. <br/>
+<span class="text-[#666666] font-bold">I build simple web pages.</span>
+</h1>
+<p class="text-lg sm:text-xl text-[#666666] font-normal max-w-xl leading-relaxed mb-10">
+            B.Com student at IGNOU, learning HTML and web design with the help of modern AI tools.
+          </p>
+<div class="flex flex-wrap items-center gap-4">
+<a class="glow-btn inline-flex items-center justify-center px-8 py-4 rounded-xl bg-[#0D0D0D] text-[#FFFFFF] text-sm font-semibold tracking-wide transition-all duration-300 hover:bg-[#0D0D0D] hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-[#0D0D0D] focus:ring-offset-2" href="#contact">
+              Get in touch
+              <svg class="w-4 h-4 ml-2.5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</a>
+<a class="glow-btn inline-flex items-center justify-center px-6 py-4 rounded-xl bg-[#FFFFFF] border border-[#E2E2E2] text-[#0D0D0D] text-sm font-medium tracking-wide hover:border-[#0D0D0D] hover:bg-[#F5F5F5] transition-all duration-200" href="#skills">
+              Explore Skills
+            </a>
+</div>
+</div>
+</div>
+</section>
+<!-- About Me Section -->
+<section class="bg-[#F5F5F5]/60 border-y border-[#E2E2E2] py-24 sm:py-28" id="about">
+<div class="max-w-6xl mx-auto px-6">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-start">
+<div class="md:col-span-4">
+<span class="text-xs font-semibold uppercase tracking-wider text-[#666666] block mb-2">Background</span>
+<h2 class="text-2xl sm:text-3xl font-extrabold text-[#0D0D0D] tracking-tight mb-4">About Me</h2>
+<div class="w-10 h-0.5 bg-[#0D0D0D] rounded-full mb-4"></div>
+<p class="text-sm text-[#666666] leading-relaxed hidden md:block">
+              Balancing commerce studies with a creative interest in building clean, functional websites.
+            </p>
+</div>
+<div class="md:col-span-8 bg-[#FFFFFF] p-8 sm:p-10 rounded-2xl border border-[#E2E2E2] shadow-soft card-transition">
+<p class="text-base sm:text-lg text-[#666666] leading-relaxed mb-6">
+              I am a commerce student driven by an eager curiosity for modern technology. While pursuing my B.Com at IGNOU, I became fascinated by how websites are structured and decided to dive into learning HTML, clean layout design, and frontend web building.
+            </p>
+<p class="text-base sm:text-lg text-[#666666] leading-relaxed">
+              I actively use modern AI tools to help accelerate my learning journey—using them to explore helpful design ideas, sketch out clean layouts, and write clean HTML code. This hands-on approach helps me learn faster, experiment with real pages, and turn creative ideas into simple, functional websites.
+            </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Skills Section -->
+<section class="py-24 sm:py-28 max-w-6xl mx-auto px-6" id="skills">
+<div class="mb-14">
+<span class="text-xs font-semibold uppercase tracking-wider text-[#666666] block mb-2">Core Competencies</span>
+<h2 class="text-2xl sm:text-3xl font-extrabold text-[#0D0D0D] tracking-tight">Skills &amp; Focus</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Skill Card 1: HTML -->
+<div class="bg-[#0D0D0D] border border-[#222222] rounded-2xl p-8 sm:p-10 shadow-soft card-transition group">
+<div class="w-14 h-14 rounded-xl bg-[#1C1C1C] border border-[#2A2A2A] flex items-center justify-center text-[#FFFFFF] mb-6 shadow-sm group-hover:scale-105 transition-transform duration-300">
+<!-- Code Tag Icon -->
+<svg class="w-7 h-7" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<h3 class="text-xl sm:text-2xl font-bold text-[#FFFFFF] mb-3 tracking-tight">HTML</h3>
+<p class="text-[#A3A3A3] text-base leading-relaxed">
+            Crafting clean, accessible, and well-structured web pages that serve as reliable foundations for any website.
+          </p>
+</div>
+<!-- Skill Card 2: Web Designing using AI Tools -->
+<div class="bg-[#0D0D0D] border border-[#222222] rounded-2xl p-8 sm:p-10 shadow-soft card-transition group">
+<div class="w-14 h-14 rounded-xl bg-[#1C1C1C] border border-[#2A2A2A] flex items-center justify-center text-[#FFFFFF] mb-6 shadow-sm group-hover:scale-105 transition-transform duration-300">
+<!-- Sparkles Icon -->
+<svg class="w-7 h-7" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<h3 class="text-xl sm:text-2xl font-bold text-[#FFFFFF] mb-3 tracking-tight">Web Designing using AI Tools</h3>
+<p class="text-[#A3A3A3] text-base leading-relaxed">
+            Using AI tools to quickly try out layouts, solve design challenges, and build clear, attractive web interfaces.
+          </p>
+</div>
+</div>
+</section>
+<!-- Contact Section -->
+<section class="bg-[#F5F5F5]/60 border-t border-[#E2E2E2] py-24 sm:py-28" id="contact">
+<div class="max-w-6xl mx-auto px-6">
+<div class="max-w-2xl mx-auto text-center">
+<div class="bg-[#FFFFFF] border border-[#E2E2E2] rounded-2xl p-10 sm:p-14 shadow-soft card-transition">
+<div class="w-12 h-12 mx-auto rounded-full bg-[#F5F5F5] border border-[#E2E2E2] flex items-center justify-center mb-6 text-[#0D0D0D]">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<span class="text-xs font-semibold uppercase tracking-wider text-[#666666] block mb-2">Get In Touch</span>
+<h2 class="text-2xl sm:text-3xl font-extrabold text-[#0D0D0D] tracking-tight mb-4">Start a Conversation</h2>
+<p class="text-[#666666] text-base mb-8 max-w-md mx-auto">
+              Feel free to reach out for collaborations, questions, or just to say hello.
+            </p>
+<div>
+<a class="glow-btn inline-flex items-center gap-3 px-6 py-3.5 rounded-xl bg-[#0D0D0D] text-[#FFFFFF] font-semibold text-sm tracking-wide transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0" href="mailto:thakurdev1503@gmail.com">
+<span>thakurdev1503@gmail.com</span>
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="border-t border-[#E2E2E2] bg-[#FFFFFF] py-10 relative z-10">
+<div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium text-[#666666]">
+<p>© 2026 Dev Thakur</p>
+<p class="tracking-wide">Built with HTML &amp; Modern AI Tools</p>
+</div>
+</footer>
+<!-- Interactive Smooth Mouse Tracking Script -->
+<script>
+    (function() {
+      // Respect touch screen devices and reduced motion
+      const isTouch = window.matchMedia('(hover: none)').matches;
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (isTouch || prefersReducedMotion) return;
+
+      let targetX = window.innerWidth / 2;
+      let targetY = window.innerHeight / 2;
+      let currentX = targetX;
+      let currentY = targetY;
+      let isMoving = false;
+
+      function updateMousePos(e) {
+        targetX = e.clientX;
+        targetY = e.clientY;
+        if (!isMoving) {
+          isMoving = true;
+          requestAnimationFrame(renderLoop);
+        }
+      }
+
+      function renderLoop() {
+        // Smooth lerp interpolation for natural fluid following
+        const ease = 0.18;
+        currentX += (targetX - currentX) * ease;
+        currentY += (targetY - currentY) * ease;
+
+        document.documentElement.style.setProperty('--mouse-x', currentX.toFixed(2) + 'px');
+        document.documentElement.style.setProperty('--mouse-y', currentY.toFixed(2) + 'px');
+        document.documentElement.style.setProperty('--nx', ((currentX / window.innerWidth - 0.5) * 2).toFixed(3));
+        document.documentElement.style.setProperty('--ny', ((currentY / window.innerHeight - 0.5) * 2).toFixed(3));
+
+        const delta = Math.abs(targetX - currentX) + Math.abs(targetY - currentY);
+        if (delta > 0.1) {
+          requestAnimationFrame(renderLoop);
+        } else {
+          isMoving = false;
+        }
+      }
+
+      const layer = document.getElementById('cursorLayer');
+      window.addEventListener('pointermove', function(e) {
+        layer.classList.add('is-active');
+        updateMousePos(e);
+      }, { passive: true });
+      document.documentElement.addEventListener('mouseleave', function() {
+        layer.classList.remove('is-active');
+      });
+      window.addEventListener('blur', function() {
+        layer.classList.remove('is-active');
+      });
+    })();
+  </script>
+</body></html>
